@@ -18,6 +18,7 @@ public class FreemarkerServlet extends HttpServlet {
     private static final String UTF_8 = StandardCharsets.UTF_8.name();
     private static final String DEBUG_TEMPLATES_PATH = "../../src/main/webapp/WEB-INF/templates";
     private static final String TEMPLATES_PATH = "/WEB-INF/templates";
+    private static final String NOT_FOUND_TEMPLATE = "not_found.ftlh";
 
     private final Configuration freemarkerConfiguration = new Configuration(Configuration.VERSION_2_3_31);
 
@@ -46,12 +47,18 @@ public class FreemarkerServlet extends HttpServlet {
         request.setCharacterEncoding(UTF_8);
         response.setCharacterEncoding(UTF_8);
 
+        String uri = request.getRequestURI();
+        if (uri.equals("/")) {
+            response.sendRedirect("/index");
+            return;
+        }
+
         Template template;
         try {
-            template = freemarkerConfiguration.getTemplate(URLDecoder.decode(request.getRequestURI(), UTF_8) + ".ftlh");
+            template = freemarkerConfiguration.getTemplate(URLDecoder.decode(uri, UTF_8) + ".ftlh");
         } catch (TemplateNotFoundException ignored) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            return;
+            template = freemarkerConfiguration.getTemplate(NOT_FOUND_TEMPLATE);
         }
 
         Map<String, Object> data = getData(request);
@@ -70,11 +77,21 @@ public class FreemarkerServlet extends HttpServlet {
 
         for (Map.Entry<String, String[]> e : request.getParameterMap().entrySet()) {
             if (e.getValue() != null && e.getValue().length == 1) {
-                data.put(e.getKey(), e.getValue()[0]);
+                data.put(e.getKey(), parseValue(e.getKey(), e.getValue()[0]));
             }
         }
 
         DataUtil.addData(request, data);
         return data;
+    }
+
+    private Object parseValue(String key, String value) {
+        if (key.endsWith("_id")) {
+            try {
+                return Long.parseLong(value);
+            } catch (NumberFormatException ignored) {
+            }
+        }
+        return value;
     }
 }

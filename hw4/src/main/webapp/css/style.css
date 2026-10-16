@@ -7,6 +7,11 @@
     --boder: 1px solid var(--border-color);
     --border-radius: 6px;
     --caption-color: #3B5998;
+
+    --table-border-color: #e1e1e1;
+    --gray-color: #888;
+    --big-font-size: 1.25rem;
+    --medium-font-size: 0.875rem;
 }
 
 html {
@@ -110,4 +115,105 @@ footer {
     padding-top: 1rem;
     border-top: var(--boder);
     text-align: center;
+}
+
+.profile {
+    display: flow-root;
+    border: var(--boder);
+    border-radius: var(--border-radius);
+    padding: 0.5rem 1rem 1rem;
+}
+
+.profile img {
+    float: right;
+    width: 8rem;
+}
+
+.profile h2 {
+    margin: 0.5rem 0;
+    font-size: 2rem;
+    font-weight: normal;
+}
+
+.arrows a,
+.arrows .disabled {
+    margin-right: 0.5rem;
+    font-size: 2rem;
+    text-decoration: none;
+}
+
+.arrows .disabled {
+    color: var(--border-color)
+}
+
+header nav a.selected-page {
+    padding-bottom: 2px;
+    border-bottom: 3px solid var(--caption-color);
+}
+
+article + article {
+    margin-top: 2rem;
+}
+
+.datatable {
+    font-size: var(--medium-font-size);
+}
+
+.datatable .caption {
+    padding: 0.25rem;
+    background-color: var(--table-border-color);
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
+}
+
+.datatable table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.datatable th,
+.datatable td {
+    padding: 0.25rem;
+    border: 1px solid var(--table-border-color);
+    text-align: center;
+}
+
+.datatable tbody tr:nth-child(2n-1) {
+    background-color: #f8f8f8;
+}
+
+article .title {
+    font-size: var(--big-font-size);
+    font-weight: bold;
+    color: var(--caption-color);
+}
+
+article .information {
+    font-size: var(--medium-font-size);
+    color: var(--gray-color);
+}
+
+article .body {
+    margin-top: 1rem;
+    padding-left: 0.75rem;
+    border-left: 4px solid var(--border-color);
+    font-family: Arial, sans-serif;
+}
+
+a.user {
+    text-decoration: none;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+}
+
+a.user-red {
+    color: red;
+}
+
+a.user-green {
+    color: green;
+}
+
+a.user-blue {
+    color: blue;
 }
